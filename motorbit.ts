@@ -543,5 +543,54 @@ export function close_all_the_on_board_lights(): void {
  sensors.board_rus04_rgb(DigitalPin.P16, 2, 0, RgbColors.Black, rgb_ColorEffect.None);
  sensors.board_rus04_rgb(DigitalPin.P16, 3, 0, RgbColors.Black, rgb_ColorEffect.None);
 }
-	
+    /*
+    //AI摄像头传感器
+    //中鸣添加，设置BE1743或BE1748功能
+    */
+    /**
+    * Set the AI camera sensor mode. 
+    */
+    //% blockId=robotbit_SetAICamera block="SetAICamera|%index"
+    //% weight=203
+    export function SetAICamera(index: number): void {
+        let buf = control.createBuffer(20)
+        buf[0] = 134
+        buf[1] = 171
+        buf[2] = 20
+        buf[3] = 232
+        buf[4] = 19
+        buf[5] = index
+        buf[6] = 0
+        buf[7] = 0
+        buf[8] = 0
+        buf[9] = 0
+        buf[10] = 0
+        buf[11] = 0
+        buf[12] = 0
+        buf[13] = 0
+        buf[14] = 0
+        buf[15] = 0
+        buf[16] = 0
+        buf[17] = 0
+        buf[18] = 0
+        buf[19] = 207
+        serial.writeBuffer(buf)
+    }
+
+/*
+//AI摄像头传感器
+//中鸣添加，获取BE1743或BE1748数据
+*/
+ /**
+    * Read the sensor data of the AI camera. 
+*/
+//% blockId=robotbit_GetAICamData block="GetAICamData|%index"
+//% weight=202   
+export function GetAICamData(index: number): any {
+    let var1 = 0
+    let revdata = control.createBuffer(20)
+    revdata = serial.readBuffer(20)
+    var1 = revdata[index + 4]
+    return var1
+}	
 }
